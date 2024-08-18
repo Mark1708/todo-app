@@ -3,6 +3,8 @@
 ## Описание
 Это простая реализация Todo приложения для практики в Kotlin и TypeScript
 
+![Main Page](assets/main.png) ![Edit Task Page](assets/edit.png)
+
 ## Запуск
 ### Backend
 ```shell
