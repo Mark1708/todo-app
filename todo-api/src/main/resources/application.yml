@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: to-do-api
+  datasource:
+    url: jdbc:postgresql://localhost:55432/todo_db
+    username: todo_user
+    password: todo_pass
+    driver-class-name: org.postgresql.Driver
+
+springdoc:
+  cache:
+    disabled: true
+  swagger-ui:
+    displayRequestDuration: true
+    disable-swagger-default-url: true
+    csrf:
+      enabled: true
+    operationsSorter: method
+    tagsSorter: alpha
+    doc-expansion: none
+  api-docs:
+    version: openapi_3_1

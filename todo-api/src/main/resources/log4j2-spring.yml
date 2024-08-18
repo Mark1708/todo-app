@@ -1,0 +1,18 @@
+Configutation:
+  name: Default
+  Properties:
+    Property:
+      - name: APP_NAME
+        value: ${spring:spring.application.name:-spring}
+  Appenders:
+    Console:
+      name: Console_Appender
+      target: SYSTEM_OUT
+      PatternLayout:
+        disableAnsi: false
+        pattern: "%d{yyyy-MM-dd'T'HH:mm:ss.SSSZ} %highlight{%-5.5level} %style{${sys:PID}}{magenta} --- [${APP_NAME}] [%15.15t] %style{%-40.40c{40}}{cyan} :%X{kvp} %msg%n"
+  Loggers:
+    Root:
+      level: info
+      AppenderRef:
+        - ref: Console_Appender
