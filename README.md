@@ -12,6 +12,13 @@ cd todo-api
 java -jar build/libs/todo-api-0.0.1-SNAPSHOT.jar
 ```
 
+### Frontend
+```shell
+cd todo-ui
+npm install
+npm run dev
+```
+
 ## Технологии
 ### Backend
 - Kotlin
