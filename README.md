@@ -8,8 +8,8 @@
 ```shell
 cd todo-api
 ./gradlew generateJooqClasses
-./gradlew nativeCompile
-./build/native/nativeCompile/todo-api
+./gradlew bootJar
+java -jar build/libs/todo-api-0.0.1-SNAPSHOT.jar
 ```
 
 ## Технологии

@@ -7,7 +7,6 @@ plugins {
     kotlin("plugin.spring") version "1.9.24"
     id("org.springframework.boot") version "3.3.2"
     id("io.spring.dependency-management") version "1.1.6"
-    id("org.graalvm.buildtools.native") version "0.10.2"
     id("dev.monosoul.jooq-docker") version "6.0.0"
 }
 
@@ -65,19 +64,6 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-}
-
-graalvmNative {
-    binaries {
-        named("main") {
-            buildArgs(
-                "-H:+ReportExceptionStackTraces",
-                "-H:EnableURLProtocols=http,https",
-                "--initialize-at-build-time=org.apache.commons.logging.LogFactoryService",
-                "--initialize-at-build-time=org.apache.commons.logging.LogFactory",
-            )
-        }
-    }
 }
 
 kotlin {
