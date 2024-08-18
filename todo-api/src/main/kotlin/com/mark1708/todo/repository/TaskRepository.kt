@@ -9,6 +9,7 @@ import org.jooq.DSLContext
 import org.jooq.Result
 import org.jooq.impl.DSL
 import org.springframework.stereotype.Repository
+import java.time.LocalDateTime
 import java.util.*
 
 @Repository
@@ -16,6 +17,7 @@ class TaskRepository(private val dsl: DSLContext) {
 
     fun findAll(): List<Task> {
         return selectTasks()
+            .orderBy(TODO_TASK.CREATED_AT)
             .fetchGroups(
                 TODO_TASK,
                 TODO_TAG
@@ -78,14 +80,20 @@ class TaskRepository(private val dsl: DSLContext) {
         return task.copy(tags = tags?.toSet())
     }
 
+    fun invertStatus(id: UUID, newStatus: Boolean) {
+        dsl.transaction { configuration ->
+            val ctx = DSL.using(configuration)
+            ctx.update(TODO_TASK)
+                .set(TODO_TASK.DONE, newStatus)
+                .set(TODO_TASK.UPDATED_AT, LocalDateTime.now())
+                .where(TODO_TASK.ID.eq(id))
+                .execute()
+        }
+    }
+
     fun delete(id: UUID) {
         dsl.transaction { configuration ->
             val ctx = DSL.using(configuration)
-            val tags = ctx.select(TODO_TASK_TAG.TAG_ID)
-                .from(TODO_TASK_TAG)
-                .where(TODO_TASK_TAG.TASK_ID.eq(id))
-                .fetch(TODO_TASK_TAG.TAG_ID)
-
             ctx.deleteFrom(TODO_TASK_TAG)
                 .where(TODO_TASK_TAG.TASK_ID.eq(id))
                 .execute()
@@ -95,7 +103,11 @@ class TaskRepository(private val dsl: DSLContext) {
                 .execute()
 
             ctx.deleteFrom(TODO_TAG)
-                .where(TODO_TAG.ID.`in`(tags))
+                .whereNotExists(
+                    DSL.selectOne()
+                        .from(TODO_TASK_TAG)
+                        .where(TODO_TASK_TAG.TAG_ID.eq(TODO_TAG.ID))
+                )
                 .execute()
         }
     }

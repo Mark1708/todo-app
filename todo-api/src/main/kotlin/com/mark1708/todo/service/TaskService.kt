@@ -1,6 +1,7 @@
 package com.mark1708.todo.service
 
 import com.mark1708.todo.dto.CreateTaskDto
+import com.mark1708.todo.dto.OperationDto
 import com.mark1708.todo.dto.TaskDto
 import com.mark1708.todo.dto.UpdateTaskDto
 import com.mark1708.todo.mapper.TagMapper
@@ -23,7 +24,7 @@ class TaskService(
 
     fun getTaskById(id: UUID): TaskDto? {
         val task = taskRepository.findById(id)
-        return task?.let(taskMapper::toDto)
+        return task?.let(taskMapper::toDto) ?: throw RuntimeException("Task with id $id does not exist")
     }
 
     fun createTask(request: CreateTaskDto): TaskDto {
@@ -35,8 +36,7 @@ class TaskService(
     }
 
     fun updateTask(id: UUID, request: UpdateTaskDto): TaskDto? {
-        val existingTask = taskRepository.findById(id)
-            ?: throw RuntimeException("Task with id $id does not exist")
+        val existingTask = getTaskByIdOrThrow(id)
 
         val updatedTask = existingTask.copy(
             title = request.title ?: existingTask.title,
@@ -51,7 +51,17 @@ class TaskService(
         return taskMapper.toDto(task)
     }
 
-    fun deleteTask(id: UUID) {
-        taskRepository.delete(id)
+    fun toggleTaskStatus(id: UUID): OperationDto {
+        val task = getTaskByIdOrThrow(id)
+        taskRepository.invertStatus(id, !task.done)
+        return OperationDto("Status changed")
     }
+
+    fun deleteTask(id: UUID): OperationDto {
+        taskRepository.delete(id)
+        return OperationDto("Deleted")
+    }
+
+    private fun getTaskByIdOrThrow(id: UUID) = (taskRepository.findById(id)
+        ?: throw RuntimeException("Task with id $id does not exist"))
 }

@@ -16,6 +16,7 @@ java -jar build/libs/todo-api-0.0.1-SNAPSHOT.jar
 ```shell
 cd todo-ui
 npm install
+npm run generate
 npm run dev
 ```
 

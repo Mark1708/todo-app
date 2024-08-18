@@ -14,6 +14,7 @@ interface TaskMapper {
     fun toDto(task: Task): TaskDto
 
     @Mapping(target = "tags", ignore = true)
+    @Mapping(target = "done", expression = "java(false)")
     @Mapping(target = "id", expression = "java(java.util.UUID.randomUUID())")
     @Mapping(target = "createdAt", expression = "java(java.time.LocalDateTime.now())")
     @Mapping(target = "updatedAt", expression = "java(java.time.LocalDateTime.now())")
