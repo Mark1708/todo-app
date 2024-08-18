@@ -3,8 +3,7 @@
 ## Описание
 Это простая реализация Todo приложения для практики в Kotlin и TypeScript
 
-<img src="assets/main.png" width="300" alt="Main Page">
-<img src="assets/edit.png" width="300" alt="Edit Task Page">
+<img src="assets/main.png" width="300" alt="Main Page"><img src="assets/edit.png" width="300" alt="Edit Task Page">
 
 ## Запуск
 ### Backend
