@@ -31,8 +31,14 @@ npm run dev
 - PostgreSQL
 - MapStruct
 
+### Frontend
+- TypeScript
+- React
+- Orval
+- Vite
+
 ## Статус
-Проект _не окончен_
+Проект _окончен_
 
 ## Цель
 Ознакомиться с возможностями языков и лучшими практиками
